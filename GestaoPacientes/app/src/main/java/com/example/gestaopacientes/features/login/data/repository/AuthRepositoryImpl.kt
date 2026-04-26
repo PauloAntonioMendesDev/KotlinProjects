@@ -21,7 +21,7 @@ class AuthRepositoryImpl(private val authApi: AuthApi): AuthRepository {
 
         } catch (error: HttpException){
             println("Error: ${error.response()?.message()}")
-            return error.response()?.message() ?: "Erro ao efetuar login";
+            throw Exception(error.response()?.message() ?: "Erro ao efetuar login");
         }
     }
 }

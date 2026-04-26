@@ -56,10 +56,12 @@ class LoginActivity: AppCompatActivity() {
                             button.isEnabled = false
                         }
                         is LoginState.Success -> {
+                            println("Logado com sucesso!")
                             Toast.makeText(this@LoginActivity, "Login realizado com sucesso!",
                                 Toast.LENGTH_SHORT).show()
                         }
                         is LoginState.Error -> {
+                            println("Erro no Login!")
                             button.text = "Entrar"
                             button.isEnabled = true
                             Toast.makeText(this@LoginActivity, state.message, Toast.LENGTH_SHORT).show()
