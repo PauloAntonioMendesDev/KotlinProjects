@@ -1,5 +1,7 @@
 package com.example.gestaopacientes.features.login.presentation
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.widget.Toast
@@ -9,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.gestaopacientes.R
 import com.example.gestaopacientes.core.network.RetrofitClient
+import com.example.gestaopacientes.features.home.presentation.HomeActivity
 import com.example.gestaopacientes.features.login.data.remote.AuthApi
 import com.example.gestaopacientes.features.login.data.repository.AuthRepository
 import com.example.gestaopacientes.features.login.data.repository.AuthRepositoryImpl
@@ -43,10 +46,10 @@ class LoginActivity: AppCompatActivity() {
             viewModel.login(edtEmail.text.toString(), edtPassword.text.toString())
         }
 
-        observeState(btnLogin)
+        observeState(btnLogin, this)
     }
 
-    private fun observeState(button: MaterialButton){
+    private fun observeState(button: MaterialButton,  context: Context){
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.state.collect { state ->
@@ -59,6 +62,8 @@ class LoginActivity: AppCompatActivity() {
                             println("Logado com sucesso!")
                             Toast.makeText(this@LoginActivity, "Login realizado com sucesso!",
                                 Toast.LENGTH_SHORT).show()
+                            val intent = Intent(context, HomeActivity::class.java)
+                            startActivity(intent)
                         }
                         is LoginState.Error -> {
                             println("Erro no Login!")
