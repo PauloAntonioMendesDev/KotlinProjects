@@ -13,8 +13,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GestaoPacientes">
+
+        <activity android:name=".features.login.presentation.LoginActivity"/>
         <activity
-            android:name=".features.login.presentation.LoginActivity"
+            android:name=".features.splash.presentation.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

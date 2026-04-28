@@ -10,6 +10,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.gestaopacientes.R
+import com.example.gestaopacientes.core.SessionManager
 import com.example.gestaopacientes.core.network.RetrofitClient
 import com.example.gestaopacientes.features.home.presentation.HomeActivity
 import com.example.gestaopacientes.features.login.data.remote.AuthApi
@@ -34,7 +35,8 @@ class LoginActivity: AppCompatActivity() {
         val authApi = RetrofitClient.api;
         val repository = AuthRepositoryImpl(authApi);
         val useCase = LoginUseCase(repository);
-        viewModel = LoginViewModel(useCase);
+        val sessionManager = SessionManager(this)
+        viewModel = LoginViewModel(useCase, sessionManager);
     }
 
     private fun setupListeners(){
