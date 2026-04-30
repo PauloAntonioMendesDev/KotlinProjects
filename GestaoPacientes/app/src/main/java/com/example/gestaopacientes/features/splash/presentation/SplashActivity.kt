@@ -20,15 +20,15 @@ class SplashActivity: AppCompatActivity() {
     }
 
       fun verifyLogin(){
-        val sessionManager = SessionManager(this);
-       lifecycleScope.launch {
-                val token = sessionManager.getToken().first();
-                if(token != null){
-                        goToHome()
-                   }else{
-                       goToLogin()
-                   }
-       }
+            val sessionManager = SessionManager(this);
+           lifecycleScope.launch {
+                    val token = sessionManager.getToken().first();
+                    if(token != null){
+                            goToHome()
+                       }else{
+                           goToLogin()
+                       }
+           }
     }
 
     fun goToHome(){
