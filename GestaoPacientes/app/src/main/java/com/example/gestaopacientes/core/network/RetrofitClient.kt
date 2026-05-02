@@ -1,33 +1,66 @@
-package com.example.gestaopacientes.core.network
-
+import com.example.gestaopacientes.core.SessionManager
+import com.example.gestaopacientes.core.network.AuthInterceptor
+import com.example.gestaopacientes.features.home.data.remote.PatientsApi
 import com.example.gestaopacientes.features.login.data.remote.AuthApi
-import okhttp3.OkHttp
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
-    private const val BASE_URL = "http://192.168.1.106:8080/"
 
-    private val client = OkHttpClient.Builder()
-        .addInterceptor ( HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
-        } ).build()
+    private const val NLOG_BASE_URL = "http://192.168.1.106:8080/"
+    private const val BASE_URL = "http://192.168.1.106:8080/api/"
 
-    private val retrofit = Retrofit.Builder()
-        .baseUrl(BASE_URL)
-        .client(client)
+    // 🔓 CLIENT PÚBLICO
+    private val publicClient = OkHttpClient.Builder()
+        .addInterceptor(
+            HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.BODY
+            }
+        )
+        .build()
+
+    // 🔓 RETROFIT PÚBLICO
+    private val publicRetrofit = Retrofit.Builder()
+        .baseUrl(NLOG_BASE_URL)
+        .client(publicClient)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    val api: AuthApi = Retrofit.Builder().
-            baseUrl(BASE_URL).
-            client(client)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-        .create(AuthApi::class.java)
-    fun <T> create(service: Class<T>) : T {
-        return retrofit.create(service)
+    // 🔐 RETROFIT LOGADO
+    fun authenticatedRetrofit(
+        sessionManager: SessionManager
+    ): Retrofit {
+
+        val authClient = OkHttpClient.Builder()
+            .addInterceptor(
+                AuthInterceptor(sessionManager)
+            )
+            .addInterceptor(
+                HttpLoggingInterceptor().apply {
+                    level = HttpLoggingInterceptor.Level.BODY
+                }
+            )
+            .build()
+
+        return Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(authClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
+    // 🔓 LOGIN API
+    val authApi: AuthApi =
+        publicRetrofit.create(AuthApi::class.java)
+
+    // 🔐 PATIENTS API
+    fun patientsApi(
+        sessionManager: SessionManager
+    ): PatientsApi {
+
+        return authenticatedRetrofit(sessionManager)
+            .create(PatientsApi::class.java)
     }
 }

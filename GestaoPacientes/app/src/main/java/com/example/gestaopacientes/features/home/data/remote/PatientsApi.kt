@@ -6,6 +6,6 @@ import retrofit2.http.GET
 import retrofit2.Response
 
 interface PatientsApi {
-    @GET("patients")
+    @GET("pacientes")
     suspend fun getPactients(): Response<PatientsResponse>
 }

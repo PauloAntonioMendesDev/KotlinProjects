@@ -3,7 +3,6 @@ package com.example.gestaopacientes.features.login.presentation
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
@@ -11,10 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.gestaopacientes.R
 import com.example.gestaopacientes.core.SessionManager
-import com.example.gestaopacientes.core.network.RetrofitClient
 import com.example.gestaopacientes.features.home.presentation.HomeActivity
-import com.example.gestaopacientes.features.login.data.remote.AuthApi
-import com.example.gestaopacientes.features.login.data.repository.AuthRepository
 import com.example.gestaopacientes.features.login.data.repository.AuthRepositoryImpl
 import com.example.gestaopacientes.features.login.domain.LoginUseCase
 import com.google.android.material.button.MaterialButton
@@ -32,7 +28,7 @@ class LoginActivity: AppCompatActivity() {
 
     }
     private fun setupDependencies(){
-        val authApi = RetrofitClient.api;
+        val authApi = RetrofitClient.authApi;
         val repository = AuthRepositoryImpl(authApi);
         val useCase = LoginUseCase(repository);
         val sessionManager = SessionManager(this)
