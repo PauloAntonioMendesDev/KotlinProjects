@@ -9,7 +9,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gestaopacientes.R
-import com.example.gestaopacientes.core.SessionManager
+import com.example.gestaopacientes.core.session.AppSessionExpiredHandler
+import com.example.gestaopacientes.core.session.SessionExpiredHandler
+import com.example.gestaopacientes.core.session.SessionManager
 import com.example.gestaopacientes.features.home.data.repository.PatientsRepositoryImpl
 import com.example.gestaopacientes.features.home.domain.GetPatientsUseCase
 import com.example.gestaopacientes.features.patients.presentation.adapter.PatientsAdapter
@@ -45,7 +47,7 @@ class HomeActivity: AppCompatActivity() {
 
     private fun setupDependencies(){
         val sessionManager = SessionManager(this)
-        val patientsApi = RetrofitClient.patientsApi(sessionManager);
+        val patientsApi = RetrofitClient.patientsApi(sessionManager, AppSessionExpiredHandler(this));
         val repository = PatientsRepositoryImpl(patientsApi)
         val usecase = GetPatientsUseCase(repository)
         viewModel = PatientsViewModel(usecase)

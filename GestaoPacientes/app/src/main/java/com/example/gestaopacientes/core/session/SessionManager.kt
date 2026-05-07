@@ -1,4 +1,4 @@
-package com.example.gestaopacientes.core
+package com.example.gestaopacientes.core.session
 
 import android.content.Context
 import androidx.datastore.preferences.core.edit

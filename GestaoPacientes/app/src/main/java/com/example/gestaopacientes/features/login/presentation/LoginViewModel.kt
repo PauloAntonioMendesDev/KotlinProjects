@@ -1,10 +1,8 @@
 package com.example.gestaopacientes.features.login.presentation
 
-import android.content.Context
-import android.se.omapi.Session
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.gestaopacientes.core.SessionManager
+import com.example.gestaopacientes.core.session.SessionManager
 import com.example.gestaopacientes.features.login.domain.LoginUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

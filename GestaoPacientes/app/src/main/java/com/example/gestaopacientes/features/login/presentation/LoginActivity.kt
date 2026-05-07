@@ -9,7 +9,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.gestaopacientes.R
-import com.example.gestaopacientes.core.SessionManager
+import com.example.gestaopacientes.core.session.SessionManager
 import com.example.gestaopacientes.features.home.presentation.HomeActivity
 import com.example.gestaopacientes.features.login.data.repository.AuthRepositoryImpl
 import com.example.gestaopacientes.features.login.domain.LoginUseCase

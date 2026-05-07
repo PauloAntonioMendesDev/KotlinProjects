@@ -1,5 +1,7 @@
-import com.example.gestaopacientes.core.SessionManager
+import com.example.gestaopacientes.core.session.SessionManager
 import com.example.gestaopacientes.core.network.AuthInterceptor
+import com.example.gestaopacientes.core.session.AppSessionExpiredHandler
+import com.example.gestaopacientes.core.session.SessionExpiredHandler
 import com.example.gestaopacientes.features.home.data.remote.PatientsApi
 import com.example.gestaopacientes.features.login.data.remote.AuthApi
 import okhttp3.OkHttpClient
@@ -9,8 +11,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
 
-    private const val NLOG_BASE_URL = "http://192.168.1.106:8080/"
-    private const val BASE_URL = "http://192.168.1.106:8080/api/"
+    private const val NLOG_BASE_URL = "http://192.168.1.108:8080/"
+    private const val BASE_URL = "http://192.168.1.108:8080/api/"
 
     // 🔓 CLIENT PÚBLICO
     private val publicClient = OkHttpClient.Builder()
@@ -30,12 +32,13 @@ object RetrofitClient {
 
     // 🔐 RETROFIT LOGADO
     fun authenticatedRetrofit(
-        sessionManager: SessionManager
+        sessionManager: SessionManager,
+        sessionExpiredHandler: SessionExpiredHandler
     ): Retrofit {
 
         val authClient = OkHttpClient.Builder()
             .addInterceptor(
-                AuthInterceptor(sessionManager)
+                AuthInterceptor(sessionManager, sessionExpiredHandler)
             )
             .addInterceptor(
                 HttpLoggingInterceptor().apply {
@@ -57,10 +60,11 @@ object RetrofitClient {
 
     // 🔐 PATIENTS API
     fun patientsApi(
-        sessionManager: SessionManager
+        sessionManager: SessionManager,
+        sessionExpiredHandler: AppSessionExpiredHandler
     ): PatientsApi {
 
-        return authenticatedRetrofit(sessionManager)
+        return authenticatedRetrofit(sessionManager, sessionExpiredHandler)
             .create(PatientsApi::class.java)
     }
 }
