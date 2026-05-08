@@ -15,8 +15,9 @@
         android:theme="@style/Theme.GestaoPacientes">
 
         <activity android:name=".features.login.presentation.LoginActivity"/>
+        <activity android:name=".features.splash.presentation.SplashActivity"/>
         <activity
-            android:name=".features.splash.presentation.SplashActivity"
+            android:name=".features.create_patient.presentation.CreatePatientActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

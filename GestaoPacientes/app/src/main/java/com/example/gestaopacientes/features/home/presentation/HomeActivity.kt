@@ -1,5 +1,6 @@
 package com.example.gestaopacientes.features.home.presentation
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -12,9 +13,11 @@ import com.example.gestaopacientes.R
 import com.example.gestaopacientes.core.session.AppSessionExpiredHandler
 import com.example.gestaopacientes.core.session.SessionExpiredHandler
 import com.example.gestaopacientes.core.session.SessionManager
+import com.example.gestaopacientes.features.create_patient.presentation.CreatePatientActivity
 import com.example.gestaopacientes.features.home.data.repository.PatientsRepositoryImpl
 import com.example.gestaopacientes.features.home.domain.GetPatientsUseCase
 import com.example.gestaopacientes.features.patients.presentation.adapter.PatientsAdapter
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.launch
 
 class HomeActivity: AppCompatActivity() {
@@ -39,6 +42,14 @@ class HomeActivity: AppCompatActivity() {
                 Toast.LENGTH_SHORT
             ).show()
         }
+
+        val btnAdd = findViewById<FloatingActionButton>(R.id.fabAdd)
+        btnAdd.setOnClickListener {
+            val intent = Intent(this, CreatePatientActivity::class.java)
+            startActivity(intent)
+        }
+
+
 
         recyclerPatients.layoutManager = LinearLayoutManager(this)
 
